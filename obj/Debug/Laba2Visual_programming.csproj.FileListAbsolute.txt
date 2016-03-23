@@ -1,0 +1,8 @@
+C:\Users\Nazarii\documents\visual studio 2013\Projects\Laba2Visual_programming\Laba2Visual_programming\bin\Debug\Laba2Visual_programming.exe
+C:\Users\Nazarii\documents\visual studio 2013\Projects\Laba2Visual_programming\Laba2Visual_programming\bin\Debug\Laba2Visual_programming.pdb
+C:\Users\Nazarii\documents\visual studio 2013\Projects\Laba2Visual_programming\Laba2Visual_programming\obj\Debug\Laba2Visual_programming.csprojResolveAssemblyReference.cache
+C:\Users\Nazarii\documents\visual studio 2013\Projects\Laba2Visual_programming\Laba2Visual_programming\obj\Debug\Laba2Visual_programming.Form1.resources
+C:\Users\Nazarii\documents\visual studio 2013\Projects\Laba2Visual_programming\Laba2Visual_programming\obj\Debug\Laba2Visual_programming.Properties.Resources.resources
+C:\Users\Nazarii\documents\visual studio 2013\Projects\Laba2Visual_programming\Laba2Visual_programming\obj\Debug\Laba2Visual_programming.csproj.GenerateResource.Cache
+C:\Users\Nazarii\documents\visual studio 2013\Projects\Laba2Visual_programming\Laba2Visual_programming\obj\Debug\Laba2Visual_programming.exe
+C:\Users\Nazarii\documents\visual studio 2013\Projects\Laba2Visual_programming\Laba2Visual_programming\obj\Debug\Laba2Visual_programming.pdb
