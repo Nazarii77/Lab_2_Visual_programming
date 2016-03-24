@@ -108,7 +108,9 @@ namespace Laba2Visual_programming
         }
         private void pictureBox1_Paint(object sender, PaintEventArgs e)
 
-        {   System.Drawing.SolidBrush myBrush = new System.Drawing.SolidBrush(System.Drawing.Color.Red);
+        {
+           
+            SolidBrush myBrush = new System.Drawing.SolidBrush(System.Drawing.Color.Red);
             Pen pen = new Pen(Color.Black);
            // парсити з текстбоксів
        
@@ -153,9 +155,35 @@ namespace Laba2Visual_programming
                
               // myBrush.Dispose();//вивільняємо ресурси
             }
-       
+           
             //MessageBox.Show("radius3", intensity3.ToString());
         }
+        void get_last_points(object sender, EventArgs e)
+        {
+            MessageBox.Show("АНАЛІТИЧНІ ТОЧКИ");
+            double X_last2 = 0;
+                double intensity1 = double.Parse(textBox1.Text);
+        double intensity2 = double.Parse(textBox8.Text);
+        double intensity3 = double.Parse(textBox9.Text);
+        double r1 =Convert.ToDouble( Math.Sqrt(k/ intensity1));
+        double r2 = Convert.ToDouble(Math.Sqrt(k/ intensity2));
+        double r3 = Convert.ToDouble(Math.Sqrt(k/ intensity3));
+double A=(-2*Y_2+2*Y_3);
+double B=(r2*r2-r3*r3-X_2*X_2+X_3*X_3-Y_2*Y_2+Y_3*Y_3);
+double C=(r1*r1-r2*r2+X_1*X_1+X_2*X_2-Y_1*Y_1+Y_2*Y_2)*(-2*X_2+2*X_3)/(-2*Y_1+2*Y_2);
+double sqrtD=Math.Sqrt((r2*r2-r3*r3-X_2*X_2+X_3*X_3-Y_2*Y_2+Y_3*Y_3)*(r2*r2-r3*r3-X_2*X_2+X_3*X_3-Y_2*Y_2+Y_3*Y_3)-4*A*C);
+double Y_y1=(-B+sqrtD)/2*A;
+double Y_y2=(-B-sqrtD)/2*A;
+if (Y_y1 > Y_y2)
+{
+    double X_last = (r1 * r1 - r2 * r2 - X_1 * X_1 + X_2 * X_2 - Y_1 * Y_1 + Y_2 * Y_2) / Y_y1 * (-2 * Y_1 + 2 * Y_2);
+    MessageBox.Show(Y_y1.ToString(), X_last.ToString());
+
+}
+else
+     X_last2 = (r1 * r1 - r2 * r2 - X_1 * X_1 + X_2 * X_2 - Y_1 * Y_1 + Y_2 * Y_2) / Y_y2 * (-2 * Y_1 + 2 * Y_2);
+MessageBox.Show(Y_y2.ToString()+"gfdsfgsgfdgsd", X_last2.ToString());
+}
 
         void get_points_of_intersection(double x10 , double y10, double r1,//координаты центра и радиус
                         double x20,double y20,double r2 ) //возвращаем результаты
@@ -217,6 +245,7 @@ namespace Laba2Visual_programming
    // if (d < r1 + r2) MessageBox.Show("перетин");//окружности пересекаются
 
 }
+
         private void label1_Click(object sender, EventArgs e)
         {
 
@@ -281,5 +310,48 @@ namespace Laba2Visual_programming
             
             pictureBox1.Invalidate();
         }
+
+        private void textBox11_TextChanged(object sender, EventArgs e)
+        {
+
+        }
+
+        private void zooming(object sender, EventArgs e)
+        {
+
+           double intensity1 = double.Parse(textBox1.Text);
+           double intensity2 = double.Parse(textBox8.Text);
+           double r1 = Convert.ToDouble(Math.Sqrt(k / intensity1));
+           double r2 = Convert.ToDouble(Math.Sqrt(k / intensity2));
+           double sumOfRadius1And2 = r1 + r2;
+           double distance = Math.Sqrt(Math.Pow(Math.Abs(X_1 - X_2), 2) + Math.Pow(Math.Abs(Y_1 - Y_2), 2));
+         while (( sumOfRadius1And2-distance) < 0.1)
+         {  
+           k++;
+           r1 = Convert.ToDouble(Math.Sqrt(k / intensity1));
+           r2 = Convert.ToDouble(Math.Sqrt(k / intensity2));
+           sumOfRadius1And2 = r1 + r2;
+           pictureBox1.Invalidate();
+         }
+        }
+
+        private void unzooming(object sender, EventArgs e)
+        {
+            k--;
+            pictureBox1.Invalidate();
+        }
+
+        private void get_analitics(object sender, MouseEventArgs e)
+        {
+            
+            get_last_points();
+           
+        }
+
+        private void get_last_points()
+        {
+
+        }
     }
+
 }
