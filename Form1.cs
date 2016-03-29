@@ -19,10 +19,13 @@ namespace Laba2Visual_programming
 
         int X1 = 0;
         int Y1 = 0;
-        int k = 1;
+        double k = 1;
         int X_1 ; int Y_1;
         int X_2 ; int Y_2;
-        int X_3 ; int Y_3; 
+        int X_3 ; int Y_3;
+
+        double Y_peretun12 = 0;
+        double X_peretun12 = 0;
         Graphics formGraphics;
         GraphicsPath kontur = new GraphicsPath();
 
@@ -108,7 +111,9 @@ namespace Laba2Visual_programming
         }
         private void pictureBox1_Paint(object sender, PaintEventArgs e)
 
-        {   System.Drawing.SolidBrush myBrush = new System.Drawing.SolidBrush(System.Drawing.Color.Red);
+        {
+           
+            SolidBrush myBrush = new System.Drawing.SolidBrush(System.Drawing.Color.Red);
             Pen pen = new Pen(Color.Black);
            // парсити з текстбоксів
        
@@ -153,8 +158,50 @@ namespace Laba2Visual_programming
                
               // myBrush.Dispose();//вивільняємо ресурси
             }
-       
+           
             //MessageBox.Show("radius3", intensity3.ToString());
+        }
+        void get_last_points(object sender, EventArgs e)
+        {
+            MessageBox.Show("АНАЛІТИЧНІ ТОЧКИ");
+            bool normalno=false;
+            while (normalno == false)
+            {k=k+0.0000001;
+                
+                double intensity1 = double.Parse(textBox1.Text);
+                double intensity2 = double.Parse(textBox8.Text);
+                double intensity3 = double.Parse(textBox9.Text);
+                double r1 = Convert.ToDouble(Math.Sqrt(k / intensity1));
+                double r2 = Convert.ToDouble(Math.Sqrt(k / intensity2));
+                double r3 = Convert.ToDouble(Math.Sqrt(k / intensity3));
+
+                double A = -(-2 * Y_1 + 2 * Y_2);
+                double B = (r2 * r2 - r3 * r3 - X_2 * X_2 + X_3 * X_3 - Y_2 * Y_2 + Y_3 * Y_3);
+                double C = (-1) * (r1 * r1 - r2 * r2 + X_1 * X_1 + X_2 * X_2 - Y_1 * Y_1 + Y_2 * Y_2) * (-2 * X_2 + 2 * X_2) / (-2 * Y_1 + 2 * Y_2);
+
+                //double A = (-1) * (-2 * Y_2 + 2 * Y_3);
+                //double B = (r2 * r2 - r3 * r3 - X_2 * X_2 + X_3 * X_3 - Y_2 * Y_2 + Y_3 * Y_3);
+              //  double C = (-1)*(r1 * r1 - r2 * r2 + X_1 * X_1 + X_2 * X_2 - Y_1 * Y_1 + Y_2 * Y_2) * (-2 * X_2 + 2 * X_3) / (-2 * Y_1 + 2 * Y_2);
+                double sqrtD = Math.Sqrt(B*B - 4 * A * C);
+                double Y_y1 = (-B + sqrtD) / 2 * A;
+                double Y_y2 = (-B - sqrtD) / 2 * A;
+                pictureBox1.Invalidate();
+                if (Y_y1 > Y_y2 && Y_y1 > 0)
+                {
+                    double X_last = (r1 * r1 - r2 * r2 - X_1 * X_1 + X_2 * X_2 - Y_1 * Y_1 + Y_2 * Y_2) / Y_y1 * (-2 * Y_1 + 2 * Y_2);
+                 //  if (X_last>Math.Min(X_3,(Math.Min(X_1,X_2))))
+                       MessageBox.Show("y= "+Y_y1.ToString() , "x= "+X_last.ToString());
+                 if (Y_y1 > 100.0 && X_last > 100.0) normalno = true;
+ 
+
+                }
+                else if (Y_y2 > Y_y1 && Y_y2 > 0)
+                {  double X_last2 = (r1 * r1 - r2 * r2 - X_1 * X_1 + X_2 * X_2 - Y_1 * Y_1 + Y_2 * Y_2) / Y_y2 * (-2 * Y_1 + 2 * Y_2);
+                MessageBox.Show("y= "+Y_y2.ToString() , X_last2.ToString());
+                if (Y_y2 > 100 && X_last2 > 100) normalno = true;
+                }
+               
+           }
         }
 
         void get_points_of_intersection(double x10 , double y10, double r1,//координаты центра и радиус
@@ -208,15 +255,20 @@ namespace Laba2Visual_programming
         textBox10.Text = x2.ToString();
         y2 = Math.Abs(y2);
         textBox11.Text = y2.ToString();
+        Y_peretun12 = y2;
+        X_peretun12 = x2;
     }
     else 
         textBox10.Text = x1.ToString();
     y1 = Math.Abs(y1);
     textBox11.Text = y1.ToString();
+    Y_peretun12 = y1;
+    X_peretun12 = x1;
 
    // if (d < r1 + r2) MessageBox.Show("перетин");//окружности пересекаются
 
 }
+
         private void label1_Click(object sender, EventArgs e)
         {
 
@@ -281,5 +333,138 @@ namespace Laba2Visual_programming
             
             pictureBox1.Invalidate();
         }
+
+        private void textBox11_TextChanged(object sender, EventArgs e)
+        {
+
+        }
+
+        private void zooming(object sender, EventArgs e)
+        {
+
+           double intensity1 = double.Parse(textBox1.Text);
+           double intensity2 = double.Parse(textBox8.Text);
+           double intensity3 = double.Parse(textBox9.Text);
+           double r1 = Convert.ToDouble(Math.Sqrt(k / intensity1));
+           double r2 = Convert.ToDouble(Math.Sqrt(k / intensity2));
+           double r3 = Convert.ToDouble(Math.Sqrt(k / intensity3));
+              double distance = Math.Sqrt( Math.Pow((X_1 - X_2), 2) + Math.Pow((Y_1 - Y_2), 2) );
+               while(distance>r1/2+r2/2)
+         {  
+           k=k+0.1;
+        r1 = Convert.ToDouble(Math.Sqrt(k / intensity1));
+        r2 = Convert.ToDouble(Math.Sqrt(k / intensity2));
+             pictureBox1.Invalidate();
+             double x0, y0;//координаты точки пересечения всех линий
+             double d;//расстояние между центрами окружностей
+             double a;//расстояние от r1 до точки пересечения всех линий
+             double h;//расстояние от точки пересеч окружностей до точки пересеч всех линий
+             double x10 = int.Parse(textBox2.Text);
+             double y10 = int.Parse(textBox3.Text);
+             double x20 = int.Parse(textBox4.Text);
+             double y20 = int.Parse(textBox5.Text);
+
+             d = Math.Sqrt(Math.Pow(Math.Abs(x10 - x20), 2) + Math.Pow(Math.Abs(y10 - y20), 2));
+             a = (r1 * r1 - r2 * r2 + d * d) / (2 * d);
+             h = Math.Sqrt(Math.Pow(r1, 2) - Math.Pow(a, 2));
+             x0 = x10 + a * (x20 - x10) / d;
+             y0 = y10 + a * (y20 - y10) / d;
+
+             double x1 = x0 + h * (y20 - y10) / d;
+             double y1 = y0 - h * (x20 - x10) / d;
+             y1 = Math.Abs(y1);
+             double x2 = x0 - h * (y20 - y10) / d;
+             double y2 = y0 + h * (x20 - x10) / d;
+             y2 = Math.Abs(y2);
+             intensity3 = double.Parse(textBox9.Text);
+             r3 = Convert.ToInt32(Math.Sqrt(k / intensity3));
+             if (Math.Sqrt(Math.Pow((double.Parse(textBox6.Text) - x2), 2) + Math.Pow((double.Parse(textBox7.Text) - y2), 2)) < Math.Sqrt(Math.Pow((double.Parse(textBox6.Text) - x1), 2) + Math.Pow((double.Parse(textBox7.Text) - y1), 2)))
+             {
+                 y2 = Math.Abs(y2);
+                 Y_peretun12 = y2;
+                 X_peretun12 = x2;
+             }
+             else
+                 y1 = Math.Abs(y1);
+             Y_peretun12 = y1;
+             X_peretun12 = x1;
+         }
+               MessageBox.Show("step2");
+    
+    double  distnce_to_3_intersections=Math.Sqrt( Math.Pow((X_3 - X_peretun12), 2) + Math.Pow((Y_3 - Y_peretun12), 2) );
+     while(r3/2 < distnce_to_3_intersections)
+     { 
+      k = k + 1;
+      r1 = Convert.ToDouble(Math.Sqrt(k / intensity1));
+      r2 = Convert.ToDouble(Math.Sqrt(k / intensity2));
+      r2 = Convert.ToDouble(Math.Sqrt(k / intensity2));
+
+         double x0, y0;//координаты точки пересечения всех линий
+         double d;//расстояние между центрами окружностей
+         double a;//расстояние от r1 до точки пересечения всех линий
+         double h;//расстояние от точки пересеч окружностей до точки пересеч всех линий
+     double  x10 = int.Parse(textBox2.Text);
+     double  y10 = int.Parse(textBox3.Text);
+     double  x20 = int.Parse(textBox4.Text);
+     double  y20 = int.Parse(textBox5.Text);
+
+         d = Math.Sqrt(Math.Pow(Math.Abs(x10 - x20), 2) + Math.Pow(Math.Abs(y10 - y20), 2));
+         a = (r1 * r1 - r2 * r2 + d * d) / (2 * d);
+         h = Math.Sqrt(Math.Pow(r1, 2) - Math.Pow(a, 2));
+         x0 = x10 + a * (x20 - x10) / d;
+         y0 = y10 + a * (y20 - y10) / d;
+
+         double x1 = x0 + h * (y20 - y10) / d;
+         double y1 = y0 - h * (x20 - x10) / d;
+         y1 = Math.Abs(y1);
+         double x2 = x0 - h * (y20 - y10) / d;
+         double y2 = y0 + h * (x20 - x10) / d;
+         y2 = Math.Abs(y2);
+          intensity3 = double.Parse(textBox9.Text);
+          r3 = Convert.ToInt32(Math.Sqrt(k / intensity3));
+          if (Math.Sqrt(Math.Pow((double.Parse(textBox6.Text) - x2), 2) + Math.Pow((double.Parse(textBox7.Text) - y2), 2)) < Math.Sqrt(Math.Pow((double.Parse(textBox6.Text) - x1), 2) + Math.Pow((double.Parse(textBox7.Text) - y1), 2)))
+          {
+
+
+              y2 = Math.Abs(y2);
+
+              Y_peretun12 = y2;
+              X_peretun12 = x2;
+              distnce_to_3_intersections = Math.Sqrt(Math.Pow((X_3 - X_peretun12), 2) + Math.Pow((Y_3 - Y_peretun12), 2));
+              pictureBox1.Invalidate();
+          }
+          else
+          {
+              y1 = Math.Abs(y1);
+
+              Y_peretun12 = y1;
+              X_peretun12 = x1;
+
+              distnce_to_3_intersections = Math.Sqrt(Math.Pow((X_3 - X_peretun12), 2) + Math.Pow((Y_3 - Y_peretun12), 2));
+              pictureBox1.Invalidate();
+          }
+   }
+
+        
+        }
+
+        private void unzooming(object sender, EventArgs e)
+        {
+            k--;
+            pictureBox1.Invalidate();
+        }
+
+        private void get_analitics(object sender, MouseEventArgs e)
+        {
+            
+            get_last_points();
+           
+        }
+
+        private void get_last_points()
+        {
+
+        }
     }
+
 }
